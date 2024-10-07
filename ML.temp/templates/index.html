@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Clustering</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            border-radius: 20px; /* Rounded edges */
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background-color: white;
+            margin-top: 20px;
+            border: 4px double #ff7f50; /* Double border */
+            width: 90%; /* Responsive width */
+            max-width: 600px; /* Maximum width */
+        }
+        .btn-custom {
+            background-color: #ff7f50; /* Coral color */
+            color: white;
+            border-radius: 50px; /* Round button */
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #ff6347; /* Tomato color on hover */
+        }
+        #results {
+            border-top: 2px solid #ff7f50;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .result-item {
+            margin-bottom: 15px;
+        }
+        .btn-link {
+            color: #ff7f50;
+            text-decoration: underline;
+        }
+        .btn-link:hover {
+            color: #ff6347;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-5">Patient Clustering Using K-Means and EM</h1>
+        <form action="/cluster" method="POST" enctype="multipart/form-data" class="mt-5">
+            <div class="form-group">
+                <label for="file">Upload Medical Records CSV:</label>
+                <input type="file" class="form-control" id="file" name="file" accept=".csv" required>
+            </div>
+            <button type="submit" class="btn btn-custom">Cluster Data</button>
+        </form>
+        <div class="mt-5" id="results">
+            {% if clusters %}
+                <h2>Clustering Results</h2>
+                <div class="result-item">
+                    <p><strong>Method:</strong> {{ method }}</p>
+                </div>
+                <div class="result-item">
+                    <p><strong>Silhouette Score:</strong> {{ silhouette_score }}</p>
+                </div>
+                <div class="result-item">
+                    <p><strong>Davies-Bouldin Index:</strong> {{ db_index }}</p>
+                </div>
+                <div class="result-item">
+                    <p><strong>Number of Clusters:</strong> {{ num_clusters }}</p>
+                </div>
+                <div class="result-item">
+                    <a href="{{ plot_url }}" target="_blank" class="btn btn-link">Download Cluster Plot</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
